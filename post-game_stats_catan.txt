@@ -1,0 +1,15 @@
+post-game stats:
+
+global game stats(all players):
+total resources gained by player
+most/least rolled number
+player robbed the most
+player who robbed the most
+most collected resource
+who played the most dev cards
+
+personal game stats(per-player):
+road Count
+numbers they obtained
+number of resources on
+types of ports controlled
