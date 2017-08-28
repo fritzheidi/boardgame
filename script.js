@@ -249,7 +249,8 @@ var margin = {
 //var hexRadius = d3.min([width/(Math.sqrt(3)*(MapColumns+3)),
 //			height/((MapRows+3)*1.5)]);
 var hexRadius = 65;
-
+var side_length = hexRadius;
+var inCircle_Radius =  (Math.sqrt(3) / 2 ) * side_length;
 //Set the new height and width based on the max possible
 width = MapColumns*hexRadius*Math.sqrt(3);
 height = MapRows*1.5*hexRadius+0.5*hexRadius;
@@ -262,6 +263,7 @@ var hexbin = d3.hexbin()
 //Calculate the center positions of each hexagon
 var points = [];
 var truePoints = [];
+// Example:  cornerPoints = [Node1:[x,y] , Node2:[x,y] , Node3:[x,y] , Node4:[x,y] , Node5:[x,y] , Node6:[x,y]]
 for (var row = 0; row < MapRows; row++) {
     if(row == 0 || row == 6){
          for (var col = 0; col < 4; col++) {
@@ -290,6 +292,49 @@ for (var row = 0; row < MapRows; row++) {
 
 }//for row
 
+var cornerPoints = new Object();
+//var tile1 = new Object();
+   cornerPoints.Tile1 = {
+        "Node1":[],
+        "Node2":[],
+        "Node3":[],
+        "Node4":[],
+        "Node5":[],
+        "Node6":[]
+   };
+   cornerPoints.Tile2 = {
+        "Node1":[],
+        "Node2":[],
+        "Node3":[],
+        "Node4":[],
+        "Node5":[],
+        "Node6":[]
+   };
+   cornerPoints.Tile3 = {
+        "Node1":[],
+        "Node2":[],
+        "Node3":[],
+        "Node4":[],
+        "Node5":[],
+        "Node6":[]
+   };
+   cornerPoints.Tile4 = {
+        "Node1":[],
+        "Node2":[],
+        "Node3":[],
+        "Node4":[],
+        "Node5":[],
+        "Node6":[]
+   };
+var jsonString= JSON.stringify(cornerPoints);
+//Node1
+cornerPoints.Tile1.Node1.push(hexRadius * col * Math.sqrt(3));
+cornerPoints.Tile1.Node1.push(hexRadius * row + hexRadius);
+//Node2
+cornerPoints.Tile1.Node2.push(hexRadius * col * Math.sqrt(3));
+cornerPoints.Tile1.Node2.push(hexRadius * row + hexRadius);
+console.log(cornerPoints);
+console.log(jsonString);
 
 
 
@@ -328,21 +373,22 @@ var svg = d3.select("#chart").append("svg")
 	   return nextImg;
 	})
 	.on("mouseover", mover)
-     .on("mouseover", function(d,i) {
-            var el = d3.select("#circle"+i)
-          		.transition()
-          		.duration(100)
-          		.style("fill-opacity", 0)
-          		;
-        })
+     // .on("mouseover", function(d,i) {
+     //        var el = d3.select("#circle"+i)
+     //      		.transition()
+     //      		.duration(100)
+     //      		.style("fill-opacity", 0)
+     //      		;
+     //    })
 	.on("mouseout", mout)
-     .on("mouseout", function(d,i) {
-               var el = d3.select("#circle"+i)
-          	   .transition()
-          	   .duration(100)
-          	   .style("fill-opacity", 0)//TODO: temporarily invisible
-          	   ;
-     });
+     // .on("mouseout", function(d,i) {
+     //           var el = d3.select("#circle"+i)
+     //      	   .transition()
+     //      	   .duration(100)
+     //      	   .style("fill-opacity", 0)//TODO: temporarily invisible
+     //      	   ;
+     // })
+     ;
 
 
 ///////////////////////////////////////////////////////////////////////////
@@ -394,20 +440,51 @@ svg.append("g")
 
 //TODO: create new array of corner points to make plotting the
 //      "place settlement" circles easier
+
+//Translate to Node1 position
+svg.append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")") //start of placement of circles
+    .selectAll(".hexagon")
+    .data(hexbin(points))
+    .enter().append("circle")
+    .attr("class", "hexagon")
+    .attr("r", "10")
+    .attr("cx", function(d,i){
+         var nextX = truePoints[i];
+         return nextX[0];
+    })
+    .attr("cy", function(d,i){
+         var nextY = truePoints[i];
+         return nextY[1]-side_length;
+    })
+    .attr("display", function(d, i) {
+         if(isWaterTile(i)) {
+              return 'none';
+         }
+         else {
+              return "inline";
+         }
+    })
+
+   .attr("stroke", "blue")
+   .attr("stroke-width", "2px")
+   .style("fill", "transparent");
+
+//Translate to Node2 position
 svg.append("g")
      .attr("transform", "translate(" + margin.left + "," + margin.top + ")") //start of placement of circles
      .selectAll(".hexagon")
      .data(hexbin(points))
      .enter().append("circle")
      .attr("class", "hexagon")
-     .attr("r", "20")
+     .attr("r", "10")
      .attr("cx", function(d,i){
           var nextX = truePoints[i];
-          return nextX[0]+113/2;
+          return nextX[0] + inCircle_Radius;
      })
      .attr("cy", function(d,i){
           var nextY = truePoints[i];
-          return nextY[1]+113/4;
+          return nextY[1] - side_length/2;
      })
      .attr("display", function(d, i) {
           if(isWaterTile(i)) {
@@ -418,9 +495,125 @@ svg.append("g")
           }
      })
 
-    .attr("stroke", "white")
+    .attr("stroke", "red")
     .attr("stroke-width", "2px")
     .style("fill", "transparent");
+
+//Translate to Node3 position
+svg.append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")") //start of placement of circles
+    .selectAll(".hexagon")
+    .data(hexbin(points))
+    .enter().append("circle")
+    .attr("class", "hexagon")
+    .attr("r", "10")
+    .attr("cx", function(d,i){
+         var nextX = truePoints[i];
+         return nextX[0] + inCircle_Radius;
+    })
+    .attr("cy", function(d,i){
+         var nextY = truePoints[i];
+         return nextY[1] + side_length/2;
+    })
+    .attr("display", function(d, i) {
+         if(isWaterTile(i)) {
+              return 'none';
+         }
+         else {
+              return "inline";
+         }
+    })
+
+   .attr("stroke", "white")
+   .attr("stroke-width", "2px")
+   .style("fill", "transparent");
+
+//Translate to Node4 position
+svg.append("g")
+  .attr("transform", "translate(" + margin.left + "," + margin.top + ")") //start of placement of circles
+  .selectAll(".hexagon")
+  .data(hexbin(points))
+  .enter().append("circle")
+  .attr("class", "hexagon")
+  .attr("r", "10")
+  .attr("cx", function(d,i){
+       var nextX = truePoints[i];
+       return nextX[0];
+  })
+  .attr("cy", function(d,i){
+       var nextY = truePoints[i];
+       return nextY[1] + side_length;
+  })
+  .attr("display", function(d, i) {
+       if(isWaterTile(i)) {
+            return 'none';
+       }
+       else {
+            return "inline";
+       }
+  })
+
+ .attr("stroke", "green")
+ .attr("stroke-width", "2px")
+ .style("fill", "transparent");
+
+//Translate to Node5 position
+svg.append("g")
+.attr("transform", "translate(" + margin.left + "," + margin.top + ")") //start of placement of circles
+.selectAll(".hexagon")
+.data(hexbin(points))
+.enter().append("circle")
+.attr("class", "hexagon")
+.attr("r", "10")
+.attr("cx", function(d,i){
+   var nextX = truePoints[i];
+   return nextX[0] - inCircle_Radius;
+})
+.attr("cy", function(d,i){
+   var nextY = truePoints[i];
+   return nextY[1] + side_length/2;
+})
+.attr("display", function(d, i) {
+   if(isWaterTile(i)) {
+        return 'none';
+   }
+   else {
+        return "inline";
+   }
+})
+
+.attr("stroke", "purple")
+.attr("stroke-width", "2px")
+.style("fill", "transparent");
+
+//Translate to Node5 position
+svg.append("g")
+.attr("transform", "translate(" + margin.left + "," + margin.top + ")") //start of placement of circles
+.selectAll(".hexagon")
+.data(hexbin(points))
+.enter().append("circle")
+.attr("class", "hexagon")
+.attr("r", "10")
+.attr("cx", function(d,i){
+   var nextX = truePoints[i];
+   return nextX[0] - inCircle_Radius;
+})
+.attr("cy", function(d,i){
+   var nextY = truePoints[i];
+   return nextY[1] - side_length/2;
+})
+.attr("display", function(d, i) {
+   if(isWaterTile(i)) {
+        return 'none';
+   }
+   else {
+        return "inline";
+   }
+})
+
+.attr("stroke", "black")
+.attr("stroke-width", "2px")
+.style("fill", "transparent");
 
 ////////////////////////////////////////////////////
 //Images to place into hexagons and number tiles////
@@ -440,10 +633,10 @@ var defs = d3.select("#mySvg").append('svg:defs')
        .attr("patternUnits", "userSpaceOnUse")
        .append("svg:image")
        .attr("xlink:href", "file:///C:/Users/IBM_ADMIN/Documents/GitHub/boardgame/imgs/wheat.png")
-       .attr("width", 155)
-       .attr("height", 155)
-       .attr("x", 22)
-       .attr("y", 22);
+       .attr("width", 160)
+       .attr("height", 160)
+       .attr("x", 20)
+       .attr("y", 20);
 
     // Brick Image to use
        defs.append("svg:pattern")
