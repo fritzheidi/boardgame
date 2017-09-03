@@ -18,10 +18,10 @@
 		<style type="text/css">
 			body {
 				margin: 0px;
-				overflow: scroll;
+				overflow: hidden;
 				font-family: "Helvetica Neue", Helvetica;
 				font-size: 14px;
-                    background-color: #44242B;
+                    background-color: #fff;
 			}
 
 			.header {
@@ -57,21 +57,11 @@
           </nav>
      </header>
 	<body>
-          <div class="container">
-          <div class="form-group">
-               <div class="text-center" style="padding-top:20px">
-                    <div class="btn-group" role="group" aria-label="Basic example">
-                         <button onclick="drawBoard()" id="generateBoard" type="button" class="btn btn-light">Draw Board</button>
-                         <button onclick="hiliteCorners()" id="hiliteCorners" type="button" class="btn btn-light">Build Settlement</button>
-                    </div>
-               </div>
-          </div>
-          </div>
-		<div id="chart">
+		<div id="hexagons">
 
           </div>
-          <script type="text/javascript" src="constants.js"></script>
-		<script type="text/javascript" src="script.js"></script>
+
+		<script type="text/javascript" src="signup.js"></script>
 
 	</body>
      <footer>
