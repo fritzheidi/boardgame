@@ -34,36 +34,74 @@
 				text-shadow: 0 1px 0 #fff;
 			}
 
-      #chart {
-        text-align: center;
-        padding-top: 40px;
-      }
+                #chart {
+                  text-align: center;
+                  padding-top: 40px;
+                }
+
+                #buildActions {
+                   position: absolute;
+                   top: 100px;
+                   right: 0;
+                   width: 400px;
+                   height: 200px;
+               }
+               button {
+                 outline: none; // this one
+               }
+
+               .btn.outline {
+                   background: none;
+                   padding: 12px 22px;
+               }
+               .btn-primary.outline {
+                   border: 2px solid #87b57b;
+                   color: #87b57b;
+               }
+               .btn-primary.outline:hover, .btn-primary.outline:focus, .open > .dropdown-toggle.btn-primary {
+                   color: #fff;
+                   border-color: #fff;
+                   outline: none;
+               }
+               .btn-primary.outline:active, .btn-primary.outline.active {
+                   box-shadow: none;
+                   outline: 0;
+               }
+
+               /***********************
+                 CUSTOM BTN VALUES
+               ************************/
+
+               .btn {
+                   padding: 14px 24px;
+                   border: 0 none;
+                   font-weight: 700;
+                   letter-spacing: 1px;
+                   text-transform: uppercase;
+               }
+               .btn:focus, .btn:active:focus, .btn.active:focus {
+                   outline: 0 none;
+               }
+               .btn:focus,.btn:active:focus,.btn.active:focus,
+               .btn.focus,.btn:active.focus,.btn.active.focus {
+                   outline: none;
+               }
 
 		</style>
 	</head>
      <header>
-          <nav class="navbar navbar-toggleable-md navbar-light bg-faded">
-            <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-            </button>
-            <a class="navbar-brand" href="#">Navbar</a>
-            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-              <div class="navbar-nav">
-                <a class="nav-item nav-link active" href="#">Home <span class="sr-only">(current)</span></a>
-                <a class="nav-item nav-link" href="#">New Game</a>
-                <a class="nav-item nav-link" href="#">About</a>
-              </div>
-            </div>
-          </nav>
+            <a class="btn btn-lg btn-primary outline" style="color: #fff;
+            border:none" href="file:///C:/Users/IBM_ADMIN/Documents/GitHub/boardgame/signup.html">Catan</a>
      </header>
 	<body>
-          <div class="container">
-          <div class="form-group">
-               <div class="text-center" style="padding-top:20px">
-                    <div class="btn-group" role="group" aria-label="Basic example">
-                         <button onclick="drawBoard()" id="generateBoard" type="button" class="btn btn-light">Draw Board</button>
-                         <button onclick="hiliteCorners()" id="hiliteCorners" type="button" class="btn btn-light">Build Settlement</button>
-                    </div>
+               <div id="buildActions">
+                         <!-- <button onclick="drawBoard()" id="generateBoard" type="button" class="btn btn-light">Draw Board</button> -->
+                         <div style="padding: 20px 20px 20px 20px; text-align: right;">
+                              <button onclick="" id="hiliteCorners" type="button" class="btn btn-primary btn-lg outline">Build Settlement</button>
+                         </div>
+                         <div style="padding: 20px 20px 20px 20px; text-align: right;">
+                              <button onclick="" id="hiliteEdges" type="button" class="btn btn-primary btn-lg outline">Build Road</button>
+                         </div>
                </div>
           </div>
           </div>

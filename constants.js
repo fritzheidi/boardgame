@@ -226,7 +226,106 @@ function imageMapper (tileType) {
           urlString = urlString + "num12_img)";
      }
      return urlString;
-}
+}//imageMapper()
+
+function drawBoard(){
+     //Create SVG element
+     var svg = d3.select("#chart").append("svg")
+     .attr("id", "mySvg")
+         .attr("width", width + margin.left + margin.right)
+         .attr("height", height + margin.top + margin.bottom)
+
+     //Start drawing the hexagons
+          svg.append("g")
+          .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+         .selectAll(".hexagon")
+         .data(hexbin(points))
+
+
+         .enter().append("path")
+         .attr("class", "hexagon")
+         .attr("d", hexbin.hexagon())
+         .attr("stroke", "black")
+         .attr("stroke-width", "2px")
+         .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; })
+         .style("fill", function (d,i) { //function to choose and add random image tiles
+              // Get the next catan tile to display in the grid
+             var nextTile = catanTiles[i];
+
+             // Get the image to display for the next tile
+             var nextImg =  imageMapper(nextTile.tileType);
+
+     	   return nextImg;
+     	})
+     	.on("mouseover", mover)
+          // .on("mouseover", function(d,i) {
+          //        var el = d3.select("#circle"+i)
+          //      		.transition()
+          //      		.duration(100)
+          //      		.style("fill-opacity", 0)
+          //      		;
+          //    })
+     	.on("mouseout", mout)
+          // .on("mouseout", function(d,i) {
+          //           var el = d3.select("#circle"+i)
+          //      	   .transition()
+          //      	   .duration(100)
+          //      	   .style("fill-opacity", 0)//TODO: temporarily invisible
+          //      	   ;
+          // })
+          ;
+
+
+     ///////////////////////////////////////////////////////////////////////////
+     ////////////////////// Draw circles and color them ////////////////////////
+     ///////////////////////////////////////////////////////////////////////////
+
+     // Start Drawing Number circles
+     // svg.append("g")
+     //      .attr("transform", "translate(" + margin.left + "," + margin.top + ")") //start of placement of circles
+     //      .selectAll(".hexagon")
+     //      .data(hexbin(points))
+     //      .enter().append("circle")
+     //      .attr("id", function(d,i) {
+     //           return "circle" + i;
+     //      })
+     //      .attr("class", "hexagon")
+     //      .attr("r", "20")
+     //      .attr("cx", function(d,i){
+     //           var nextX = truePoints[i];
+     //           return nextX[0];
+     //      })
+     //      .attr("cy", function(d,i){
+     //           var nextY = truePoints[i];
+     //           return nextY[1];
+     //      })
+     //      .attr("display", function(d, i) {
+     //           if(isWaterTile(i)) {
+     //                return 'none';
+     //           }
+     //           else {
+     //                return "inline";
+     //           }
+     //      })
+     //      .style("fill-opacity", "0") //TODO: temporarily invisible
+     //      .style("fill", function (d,i) { //function to choose and add random image tiles
+     //           // Get the next number tile to display in the grid
+     //          var nextTile = numberTiles[i];
+     //
+     //          // Get the image to display for the next tile
+     //          var nextImg =  imageMapper(nextTile.tileType);
+     //
+     //          return nextImg;
+     //     });
+
+////////////////////////////////////////////////////
+//Images to place into hexagons and number tiles////
+////////////////////////////////////////////////////
+makeImagePattern();
+
+//$('#generateBoard').addClass('disabled');
+
+} // drawBoard()
 
 function findCorners(){
      //TODO: associate tiles and node names in json string
@@ -297,10 +396,10 @@ function findCorners(){
                          x = coord[0];
                          y = coord[1];
                          cornerArray.push([x + inCircle_Radius, y - side_length/2]);
-                         if(currHex==6)//Node2
-                              cornerObj2.T2N2 = cornerObj2.T3N6 = cornerArray[index+1];
-                         if(currHex==10)//Node4
-                              cornerObj2.T4N2 = cornerObj2.T5N6 = cornerArray[index+1];
+                         // if(currHex==6)//Node2
+                         //      cornerObj2.T2N2 = cornerObj2.T3N6 = cornerArray[index];
+                         // if(currHex==10)//Node4
+                         //      cornerObj2.T4N2 = cornerObj2.T5N6 = cornerArray[index];
                     }
                     //add Node6 (1, 4, 8, 13, 17)
                     if(currHex == 5 || currHex == 10 || currHex == 16 || currHex == 23 || currHex == 29){
@@ -342,16 +441,55 @@ function findCorners(){
 //Make JS Object of overlapping coordinates
 function makeCornerObj() {
      for(var index=0; index<cornerArray.length;index++) {
-
+          //Go through entire cornerArray and explicitly say which corners are shared in JS Object
           switch(index) {
-               case 0://Node1
+               case 0://1st in array
+                    cornerObj.T1N1 = cornerArray[index];
+               break;
+               case 1:
                     cornerObj.T1N2 = cornerObj.T2N6 = cornerArray[index];
                break;
-               case 1://Node2
+               case 2:
+                    cornerObj.T1N6 = cornerArray[index];
+               break;
+               case 3:
+                    cornerObj.T2N1 = cornerArray[index];
+               break;
+               case 4:
                     cornerObj.T2N2 = cornerObj.T3N6 = cornerArray[index];
                break;
-               case 3://Node4
-                    cornerObj.T4N2 = cornerObj.T5N6 = cornerArray[index];
+               case 5:
+                    cornerObj.T3N1 = cornerArray[index];
+               break;
+               case 6:
+                    cornerObj.T3N2 = cornerArray[index];
+               break;
+               case 7:
+                    cornerObj.T1N5 = cornerObj.T4N1 = cornerArray[index];
+               break;
+               case 8:
+                    cornerObj.T1N4 = cornerObj.T4N2 = cornerObj.T5N6 = cornerArray[index];
+               break;
+               case 9://10th index
+                    cornerObj.T4N6 = cornerArray[index];
+               break;
+               case 10:
+                    cornerObj.T1N3 = cornerObj.T2N5 = cornerObj.T5N1 = cornerArray[index];
+               break;
+               case 11:
+                    cornerObj.T2N4 = cornerObj.T5N2 = cornerObj.T6N6 = cornerArray[index];
+               break;
+               case 12:
+                    cornerObj.T2N3 = cornerObj.T3N5 = cornerObj.T6N1 = cornerArray[index];
+               break;
+               case 13:
+                    cornerObj.T3N4 = cornerObj.T6N2 = cornerObj.T7N6 = cornerArray[index];
+               break;
+               case 14:
+                    cornerObj.T3N3 = cornerObj.T7N1 = cornerArray[index];
+               break;
+               case 15://16th
+                    cornerObj.T7N2 = cornerArray[index];
                break;
           }
 

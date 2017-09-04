@@ -270,164 +270,19 @@ for (var row = 0; row < MapRows; row++) {
 
 }//for row
 
-//var dataArr = hexbin.data(truePoints);
-var cornerPoints = new Object();
-//var tile1 = new Object();
-   cornerPoints.Tile1 = {
-        "Node1":[],
-        "Node2":[],
-        "Node3":[],
-        "Node4":[],
-        "Node5":[],
-        "Node6":[]
-   };
-   cornerPoints.Tile2 = {
-        "Node1":[],
-        "Node2":[],
-        "Node3":[],
-        "Node4":[],
-        "Node5":[],
-        "Node6":[]
-   };
-   cornerPoints.Tile3 = {
-        "Node1":[],
-        "Node2":[],
-        "Node3":[],
-        "Node4":[],
-        "Node5":[],
-        "Node6":[]
-   };
-   cornerPoints.Tile4 = {
-        "Node1":[],
-        "Node2":[],
-        "Node3":[],
-        "Node4":[],
-        "Node5":[],
-        "Node6":[]
-   };
-var jsonString= JSON.stringify(cornerPoints);
-//Node1
-cornerPoints.Tile1.Node1.push(hexRadius * col * Math.sqrt(3));
-cornerPoints.Tile1.Node1.push(hexRadius * row + hexRadius);
-//Node2
-cornerPoints.Tile1.Node2.push(hexRadius * col * Math.sqrt(3));
-cornerPoints.Tile1.Node2.push(hexRadius * row + hexRadius);
-console.log(cornerPoints);
-console.log(jsonString);
-
-
-
 ///////////////////////////////////////////////////////////////////////////
 ////////////////////// Draw hexagons and color them ///////////////////////
 ///////////////////////////////////////////////////////////////////////////
 
-function drawBoard(){
-     //Create SVG element
-     var svg = d3.select("#chart").append("svg")
-     .attr("id", "mySvg")
-         .attr("width", width + margin.left + margin.right)
-         .attr("height", height + margin.top + margin.bottom)
+drawBoard();
 
-     //Start drawing the hexagons
-          svg.append("g")
-          .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
-         .selectAll(".hexagon")
-         .data(hexbin(points))
+// If the build settlement button is clicked update this value
+var isShowingSettlementPreview = false;
 
-
-         .enter().append("path")
-         .attr("class", "hexagon")
-         .attr("d", hexbin.hexagon())
-         .attr("stroke", "black")
-         .attr("stroke-width", "2px")
-         .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; })
-         .style("fill", function (d,i) { //function to choose and add random image tiles
-              // Get the next catan tile to display in the grid
-             var nextTile = catanTiles[i];
-
-             // Get the image to display for the next tile
-             var nextImg =  imageMapper(nextTile.tileType);
-
-     	   return nextImg;
-     	})
-     	.on("mouseover", mover)
-          // .on("mouseover", function(d,i) {
-          //        var el = d3.select("#circle"+i)
-          //      		.transition()
-          //      		.duration(100)
-          //      		.style("fill-opacity", 0)
-          //      		;
-          //    })
-     	.on("mouseout", mout)
-          // .on("mouseout", function(d,i) {
-          //           var el = d3.select("#circle"+i)
-          //      	   .transition()
-          //      	   .duration(100)
-          //      	   .style("fill-opacity", 0)//TODO: temporarily invisible
-          //      	   ;
-          // })
-          ;
-
-
-     ///////////////////////////////////////////////////////////////////////////
-     ////////////////////// Draw circles and color them ////////////////////////
-     ///////////////////////////////////////////////////////////////////////////
-
-     // Start Drawing Number circles
-     // svg.append("g")
-     //      .attr("transform", "translate(" + margin.left + "," + margin.top + ")") //start of placement of circles
-     //      .selectAll(".hexagon")
-     //      .data(hexbin(points))
-     //      .enter().append("circle")
-     //      .attr("id", function(d,i) {
-     //           return "circle" + i;
-     //      })
-     //      .attr("class", "hexagon")
-     //      .attr("r", "20")
-     //      .attr("cx", function(d,i){
-     //           var nextX = truePoints[i];
-     //           return nextX[0];
-     //      })
-     //      .attr("cy", function(d,i){
-     //           var nextY = truePoints[i];
-     //           return nextY[1];
-     //      })
-     //      .attr("display", function(d, i) {
-     //           if(isWaterTile(i)) {
-     //                return 'none';
-     //           }
-     //           else {
-     //                return "inline";
-     //           }
-     //      })
-     //      .style("fill-opacity", "0") //TODO: temporarily invisible
-     //      .style("fill", function (d,i) { //function to choose and add random image tiles
-     //           // Get the next number tile to display in the grid
-     //          var nextTile = numberTiles[i];
-     //
-     //          // Get the image to display for the next tile
-     //          var nextImg =  imageMapper(nextTile.tileType);
-     //
-     //          return nextImg;
-     //     });
-
-////////////////////////////////////////////////////
-//Images to place into hexagons and number tiles////
-////////////////////////////////////////////////////
-makeImagePattern();
-
-$('#generateBoard').addClass('disabled');
-
-} // drawBoard()
-
-//TODO: add variables for hexagon properties: width, center-midpoint edge,
-//      center-corner, center-points
+// The user is currently choosing a building location
+var isBuildingSettlement = false;
 
 // Draw hilighted circles to place settlement on button click
-
-function toggler(divId) {
-    $("#" + divId).toggle();
-}
 
 //Build javascript Object
 var cornerObj = {};
@@ -438,7 +293,80 @@ var cornerArray = [];
 findCorners();
 makeCornerObj();
 console.log(cornerObj);
-console.log(cornerObj2);
+
+//TODO: Available spots array sent from JOE
+var availSpots = [
+	"T1N6", "T1N1", "T1N2", "T2N1", "T2N2", "T3N1", "T3N2" // first row
+    ,"T4N6", "T4N1", "T4N2", "T5N1" ,"T5N2", "T6N1", "T6N2", "T7N1", "T7N2"  // second row
+];
+var key;
+var coord, x, y;
+function getAvailSpot(axis, index) {
+	key = availSpots[index];
+	coord = cornerObj[key];
+	if (axis == "x")
+	 	return coord[0];
+	else if (axis == "y")
+		return coord[1];
+}//getAvailSpot(axis,index)
+
+Element.prototype.remove = function() {
+    this.parentElement.removeChild(this);
+}
+NodeList.prototype.remove = HTMLCollection.prototype.remove = function() {
+    for(var i = this.length - 1; i >= 0; i--) {
+        if(this[i] && this[i].parentElement) {
+            this[i].parentElement.removeChild(this[i]);
+        }
+    }
+}
+
+//On hover of button show the hiliteCorners
+d3.select("#hiliteCorners")
+    .on("mouseover", function(d) {
+	    if(!isBuildingSettlement) {
+		   hiliteCorners();
+		   isShowingSettlementPreview = true;
+	    }
+    })
+    .on("mouseout", function(d){
+	    if(!isBuildingSettlement && isShowingSettlementPreview) {
+		    document.getElementById("circlz").remove();
+	    }
+
+    })
+    .on("click",function(d) {
+
+	    // Cancel Building
+	    if(isBuildingSettlement) {
+
+		    if(isShowingSettlementPreview) {
+		    // Undraw the preview locations
+		    document.getElementById("circlz").remove();
+		    isShowingSettlementPreview = false;
+	    }
+
+		    // Change the name of the button back to 'Build Settlement'
+		    document.getElementById("hiliteCorners").innerHTML = "Build Settlement";
+
+		    // The user is no longer trying to build a settlment
+	 	    isBuildingSettlement = false;
+	    }
+	    // Building
+	    else {
+
+		    if(!isShowingSettlementPreview) {
+			    hiliteCorners();
+			    isShowingSettlementPreview = true;
+		    }
+		    	// Change the name of the button to 'Cancel Build'
+		  	document.getElementById("hiliteCorners").innerHTML = "Cancel Build";
+
+			// Flip the boolean
+			isBuildingSettlement = true;
+	    }
+    });
+
 
 // hiliteCorners():  Draw hilite corners
 function hiliteCorners(){
@@ -448,17 +376,11 @@ d3.select("#mySvg").append("g")
 
     //Draw all the circles!!!
     //TODO: eventually Joe will pass me an array of strings that tell me which tile and node to plot
-    for(var index = 0; index<cornerArray.length;index++){
+    for(var index = 0; index<availSpots.length;index++){
          d3.select("#circlz").append("circle")
          .attr("r", "15")
-         .attr("cx", function(d){
-              var nextX = cornerArray[index];
-              return nextX[0];
-         })
-         .attr("cy", function(d){
-              var nextY = cornerArray[index];
-              return nextY[1];
-         })
+         .attr("cx", getAvailSpot("x", index))
+         .attr("cy", getAvailSpot("y", index))
         .attr("stroke", "white")
         .attr("stroke-width", "1px")
         .style("fill-opacity", "0.3")
@@ -475,8 +397,6 @@ d3.select("#mySvg").append("g")
         .style("filter", "url(#glow)")
         .style("fill", "white");
      }
-
-	$('#hiliteCorners').addClass('disabled');
 // Once this is drawn we wait for the player to pick a corner...
 // When they click on one, we will hide the nodes
 }
