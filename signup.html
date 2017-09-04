@@ -34,32 +34,118 @@
 				text-shadow: 0 1px 0 #fff;
 			}
 
-      #chart {
-        text-align: center;
-        padding-top: 40px;
-      }
+                #chart {
+                  text-align: center;
+                  padding-top: 0px;
+                }
+
+                .btn.outline {
+                    background: none;
+                    padding: 12px 22px;
+                }
+                .btn-primary.outline {
+                    border: 2px solid #87b57b;
+                    color: #87b57b;
+                }
+                .btn-primary.outline:hover, .btn-primary.outline:focus, .open > .dropdown-toggle.btn-primary {
+                    color: #fff;
+                    border-color: #fff;
+                    outline: none;
+                }
+                .btn-primary.outline:active, .btn-primary.outline.active {
+                    box-shadow: none;
+                    outline: 0;
+                }
+
+                .btn-secondary.outline {
+                   border: 2px solid #000;
+                   color: #000;
+                }
+                .btn-secondary.outline:hover, .btn-secondary.outline:focus, .open > .dropdown-toggle.btn-secondary {
+                    color: #fff;
+                    border-color: #fff;
+                    outline: none;
+                }
+
+                /***********************
+                  CUSTOM BTN VALUES
+                ************************/
+
+                .btn {
+                    padding: 14px 24px;
+                    border: 0 none;
+                    font-weight: 700;
+                    letter-spacing: 1px;
+                    text-transform: uppercase;
+                }
+                .btn:focus, .btn:active:focus, .btn.active:focus {
+                    outline: 0 none;
+                }
+                .btn:focus,.btn:active:focus,.btn.active:focus,
+                .btn.focus,.btn:active.focus,.btn.active.focus {
+                    outline: none;
+                }
+
+                div.form {
+                   position: relative;
+                   z-index: 2;
+                   margin: 0 auto;
+                   top: 0;
+                   width: 400px;
+                   height: 500px;
+                   background-color: #fff;
+                   padding: 15px 15px 15px 15px;
+                   border-radius: 20px;
+               }
 
 		</style>
 	</head>
      <header>
-          <nav class="navbar navbar-toggleable-md navbar-light bg-faded">
-            <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-            </button>
-            <a class="navbar-brand" href="#">Navbar</a>
-            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-              <div class="navbar-nav">
-                  <a class="nav-item nav-link active" href="file:///C:/Users/IBM_ADMIN/Documents/GitHub/boardgame/signup.html">Home <span class="sr-only">(current)</span></a>
-                  <a class="nav-item nav-link" href="file:///C:/Users/IBM_ADMIN/Documents/GitHub/boardgame/hex.html">Create Lobby</a>
-                  <a class="nav-item nav-link" href="#">About</a>
-              </div>
-            </div>
-          </nav>
+               <!-- <nav class="navbar" style="position: relative; z-index: 3;">
+               <a class="navbar-brand btn btn-lg btn-primary outline" style="color: #e2e2e2;
+               border:none; " href="file:///C:/Users/IBM_ADMIN/Documents/GitHub/boardgame/signup.html">Catan</a>
+
+                    <button onclick="" type="button" class="btn btn-primary btn-lg outline"
+                    style="text-align: right; padding-right: 10px; ">Profile</button>
+</nav> -->
+<nav class="navbar navbar-toggleable-md" style="position: relative; z-index: 3;">
+  <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <a class="navbar-brand btn btn-lg btn-primary outline" style="color: #e2e2e2;
+ border:none; " href="file:///C:/Users/IBM_ADMIN/Documents/GitHub/boardgame/signup.html">Catan</a>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+    </ul>
+    <form class="form-inline my-2 my-lg-0">
+      <button class="btn btn-secondary btn-lg outline my-2 my-sm-0" type="button">Profile</button>
+    </form>
+  </div>
+</nav>
      </header>
 	<body>
-		<div id="hexagons">
+		<div id="hexagons" style="z-index: 1; position: absolute; top: 0;">
 
           </div>
+               <div class="form">
+                    <div style="width: 100%; text-align:center; padding: 15px 15px 15px 15px;">
+                         <img src="file:///C:/Users/IBM_ADMIN/Documents/GitHub/boardgame/imgs/sheep_avatar.png" alt="sheep"
+                         height="150" width="150" style="text-align:center;">
+                    </div>
+                    <div class="form-group row">
+                      <label for="example-email-input" class="col-2 col-form-label">Email</label>
+                      <div class="col-10">
+                        <input class="form-control" type="email" value="joe@example.com" id="example-email-input">
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label for="example-password-input" class="col-2 col-form-label">Password</label>
+                      <div class="col-10">
+                        <input class="form-control" type="password" value="" id="example-password-input">
+                      </div>
+                    </div>
+               </div>
 
 		<script type="text/javascript" src="signup.js"></script>
 

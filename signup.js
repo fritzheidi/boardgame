@@ -48,7 +48,7 @@ function mout(d) {
 
 //svg sizes and margins
 var margin = {
-    top: 30,
+    top: 0,
     right: 20,
     bottom: 20,
     left: 50
