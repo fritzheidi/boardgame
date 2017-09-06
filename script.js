@@ -402,3 +402,11 @@ d3.select("#mySvg").append("g")
 }
 
 //Check if one of the corners clicked. Then replace with house and remove circles
+console.log(cornerObj);
+//Create lineData
+var lineData = [];
+
+//Add T1N1 and T1N2 as line coordinates
+lineData.push();
+
+//Draw line between two corner points

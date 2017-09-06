@@ -327,6 +327,7 @@ makeImagePattern();
 
 } // drawBoard()
 
+//Make array of coordinates
 function findCorners(){
      //TODO: associate tiles and node names in json string
 
@@ -491,6 +492,9 @@ function makeCornerObj() {
                case 15://16th
                     cornerObj.T7N2 = cornerArray[index];
                break;
+               case 16://TODO
+                    cornerObj.T7N2 = cornerArray[index];
+               break;
           }
 
           // if(currHex==6)//Node2
@@ -498,4 +502,15 @@ function makeCornerObj() {
           // if(currHex==10)//Node4
           //      cornerObj.T4N2 = cornerObj.T5N6 = cornerArray[index];
      }
+}//makeCornerObj()
+
+
+//Show cost of action info
+function showCost() {
+    document.getElementById("showCost").style.width = "250px";
+}
+
+//Hide cost of action info
+function hideCost() {
+    document.getElementById("showCost").style.width = "0";
 }
