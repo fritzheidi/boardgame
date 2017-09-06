@@ -230,7 +230,7 @@ function imageMapper (tileType) {
 
 function drawBoard(){
      //Create SVG element
-     var svg = d3.select("#chart").append("svg")
+     svg = d3.select("#chart").append("svg")
      .attr("id", "mySvg")
          .attr("width", width + margin.left + margin.right)
          .attr("height", height + margin.top + margin.bottom)
@@ -327,9 +327,11 @@ makeImagePattern();
 
 } // drawBoard()
 
+
+
 //Make array of coordinates
 function findCorners(){
-     //TODO: associate tiles and node names in json string
+     //TODO: can optomize to not need giant switch
 
      var TotalHexs = 54;
      var coord;
@@ -351,10 +353,6 @@ function findCorners(){
                case 15:
                break;
                case 21:
-               case 22:
-               break;
-               case 27:
-               case 28:
                break;
                     //water tiles
                case 5://Tile1
@@ -381,27 +379,6 @@ function findCorners(){
                case 30://18
                case 31://19
 
-               //add N1 points to cornerArray (all)
-                    coord = centers[currHex];
-                    x = coord[0];
-                    y = coord[1];
-                    cornerArray.push([x, y - side_length]);
-               //add N2 points to cornerArray (all)
-                    if(currHex == 5 || currHex == 6 || currHex == 7
-                       || currHex == 10 || currHex == 11 || currHex == 12 || currHex == 13
-                       || currHex == 16 || currHex == 17 || currHex == 18 || currHex == 19 || currHex == 20
-                       || currHex == 23 || currHex == 24 || currHex == 25 || currHex == 26
-                       || currHex == 29 || currHex == 30 || currHex == 31){
-
-                         coord = centers[currHex];
-                         x = coord[0];
-                         y = coord[1];
-                         cornerArray.push([x + inCircle_Radius, y - side_length/2]);
-                         // if(currHex==6)//Node2
-                         //      cornerObj2.T2N2 = cornerObj2.T3N6 = cornerArray[index];
-                         // if(currHex==10)//Node4
-                         //      cornerObj2.T4N2 = cornerObj2.T5N6 = cornerArray[index];
-                    }
                     //add Node6 (1, 4, 8, 13, 17)
                     if(currHex == 5 || currHex == 10 || currHex == 16 || currHex == 23 || currHex == 29){
                          coord = centers[currHex];
@@ -409,31 +386,43 @@ function findCorners(){
                          y = coord[1];
                          cornerArray.push([x - inCircle_Radius, y - side_length/2]);
                     }
-                    //add Node 3 (12, 16, 17, 18, 19)
-                    if(currHex == 20 || currHex == 26 || currHex == 29 || currHex == 30 || currHex == 31){
-                         //add Node6
-                         coord = centers[currHex];
-                         x = coord[0];
-                         y = coord[1];
-                         cornerArray.push([x + inCircle_Radius, y + side_length/2]);
-                    }
-                    //add Node 5 (12, 16, 19)
-                    if(currHex == 16 || currHex == 23 || currHex == 29){
-                         //add Node6
-                         coord = centers[currHex];
-                         x = coord[0];
-                         y = coord[1];
-                         cornerArray.push([x - inCircle_Radius, y + side_length/2]);
-                    }
-                    //add Node 4 (17, 18, 19)
-                    if(currHex == 29 || currHex == 30 || currHex == 31){
-                         //add Node6
-                         coord = centers[currHex];
-                         x = coord[0];
-                         y = coord[1];
-                         cornerArray.push([x, y + side_length]);
-                    }
+
+                    //add N1 points to cornerArray (all)
+                    coord = centers[currHex];
+                    x = coord[0];
+                    y = coord[1];
+                    cornerArray.push([x, y - side_length]);
+
+                    //add N2 points to cornerArray (all)
+                    coord = centers[currHex];
+                    x = coord[0];
+                    y = coord[1];
+                    cornerArray.push([x + inCircle_Radius, y - side_length/2]);
+
                     index++;
+               break;
+
+               case 22:
+               case 27:
+               case 28:
+               case 32:
+               case 33:
+               case 34:
+               case 35:
+               case 36:
+                    //add N1 points to cornerArray (all)
+                    coord = centers[currHex];
+                    x = coord[0];
+                    y = coord[1];
+                    cornerArray.push([x, y - side_length]);
+
+                    //add N2 points to cornerArray
+                    if(currHex == 33 || currHex == 34 || currHex == 35) {
+                    coord = centers[currHex];
+                    x = coord[0];
+                    y = coord[1];
+                    cornerArray.push([x + inCircle_Radius, y - side_length/2]);
+                    }
                break;
           }
      }
@@ -443,66 +432,21 @@ function findCorners(){
 function makeCornerObj() {
      for(var index=0; index<cornerArray.length;index++) {
           //Go through entire cornerArray and explicitly say which corners are shared in JS Object
-          switch(index) {
-               case 0://1st in array
-                    cornerObj.T1N1 = cornerArray[index];
-               break;
-               case 1:
-                    cornerObj.T1N2 = cornerObj.T2N6 = cornerArray[index];
-               break;
-               case 2:
-                    cornerObj.T1N6 = cornerArray[index];
-               break;
-               case 3:
-                    cornerObj.T2N1 = cornerArray[index];
-               break;
-               case 4:
-                    cornerObj.T2N2 = cornerObj.T3N6 = cornerArray[index];
-               break;
-               case 5:
-                    cornerObj.T3N1 = cornerArray[index];
-               break;
-               case 6:
-                    cornerObj.T3N2 = cornerArray[index];
-               break;
-               case 7:
-                    cornerObj.T1N5 = cornerObj.T4N1 = cornerArray[index];
-               break;
-               case 8:
-                    cornerObj.T1N4 = cornerObj.T4N2 = cornerObj.T5N6 = cornerArray[index];
-               break;
-               case 9://10th index
-                    cornerObj.T4N6 = cornerArray[index];
-               break;
-               case 10:
-                    cornerObj.T1N3 = cornerObj.T2N5 = cornerObj.T5N1 = cornerArray[index];
-               break;
-               case 11:
-                    cornerObj.T2N4 = cornerObj.T5N2 = cornerObj.T6N6 = cornerArray[index];
-               break;
-               case 12:
-                    cornerObj.T2N3 = cornerObj.T3N5 = cornerObj.T6N1 = cornerArray[index];
-               break;
-               case 13:
-                    cornerObj.T3N4 = cornerObj.T6N2 = cornerObj.T7N6 = cornerArray[index];
-               break;
-               case 14:
-                    cornerObj.T3N3 = cornerObj.T7N1 = cornerArray[index];
-               break;
-               case 15://16th
-                    cornerObj.T7N2 = cornerArray[index];
-               break;
-               case 16://TODO
-                    cornerObj.T7N2 = cornerArray[index];
-               break;
-          }
-
-          // if(currHex==6)//Node2
-          //      cornerObj.T2N2 = cornerObj.T3N6 = cornerArray[index];
-          // if(currHex==10)//Node4
-          //      cornerObj.T4N2 = cornerObj.T5N6 = cornerArray[index];
+          cornerObj[index] =  cornerArray[index];
      }
 }//makeCornerObj()
+
+var key;
+var coord, x, y;
+// Go through the availSpots array and find the T#N# and return the coordinates of either the x or y value
+function getAvailSpot(axis, index) {
+	key = availSpots[index];
+	coord = cornerObj[key];
+	if (axis == "x")
+	 	return coord[0];
+	else if (axis == "y")
+		return coord[1];
+}//getAvailSpot(axis,index)
 
 
 //Show cost of action info

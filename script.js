@@ -273,7 +273,7 @@ for (var row = 0; row < MapRows; row++) {
 ///////////////////////////////////////////////////////////////////////////
 ////////////////////// Draw hexagons and color them ///////////////////////
 ///////////////////////////////////////////////////////////////////////////
-
+var svg;
 drawBoard();
 
 // If the build settlement button is clicked update this value
@@ -282,33 +282,33 @@ var isShowingSettlementPreview = false;
 // The user is currently choosing a building location
 var isBuildingSettlement = false;
 
+// If the build road button is clicked update this value
+var isShowingRoadPreview = false;
+
+// The user is currently choosing a building location
+var isBuildingRoad = false;
+
 // Draw hilighted circles to place settlement on button click
 
 //Build javascript Object
 var cornerObj = {};
-var cornerObj2 = {};
 
 //Build array of corner points
 var cornerArray = [];
 findCorners();
 makeCornerObj();
-console.log(cornerObj);
+console.log(Object.keys(cornerObj).length);
 
 //TODO: Available spots array sent from JOE
 var availSpots = [
-	"T1N6", "T1N1", "T1N2", "T2N1", "T2N2", "T3N1", "T3N2" // first row
-    ,"T4N6", "T4N1", "T4N2", "T5N1" ,"T5N2", "T6N1", "T6N2", "T7N1", "T7N2"  // second row
+	0, 1, 2, 3, 4, 5, 6,
+	7, 8, 9, 10, 11, 12, 13, 14, 15,
+	16, 17, 18, 19, 20, 21, 22, 23, 24, 25,
+	26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37,
+	38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49,
+	50, 51, 52, 53
 ];
-var key;
-var coord, x, y;
-function getAvailSpot(axis, index) {
-	key = availSpots[index];
-	coord = cornerObj[key];
-	if (axis == "x")
-	 	return coord[0];
-	else if (axis == "y")
-		return coord[1];
-}//getAvailSpot(axis,index)
+
 
 Element.prototype.remove = function() {
     this.parentElement.removeChild(this);
@@ -402,11 +402,92 @@ d3.select("#mySvg").append("g")
 }
 
 //Check if one of the corners clicked. Then replace with house and remove circles
-console.log(cornerObj);
+
+//On hover of button show the hiliteEdges
+d3.select("#hiliteEdges")
+    .on("mouseover", function(d) {
+	    if(!isBuildingRoad) {
+		   hiliteEdges();
+		   isShowingRoadPreview = true;
+	    }
+    })
+    .on("mouseout", function(d){
+	    if(!isBuildingRoad && isShowingRoadPreview) {
+		    document.getElementById("linz").remove();
+	    }
+
+    })
+    .on("click",function(d) {
+
+	    // Cancel Building
+	    if(isBuildingRoad) {
+
+		    if(isShowingRoadPreview) {
+		    // Undraw the preview locations
+		    document.getElementById("linz").remove();
+		    isShowingRoadPreview = false;
+	    }
+
+		    // Change the name of the button back to 'Build Settlement'
+		    document.getElementById("hiliteEdges").innerHTML = "Build Road";
+
+		    // The user is no longer trying to build a settlment
+	 	    isBuildingRoad = false;
+	    }
+	    // Building
+	    else {
+
+		    if(!isShowingRoadPreview) {
+			    hiliteEdges();
+			    isShowingRoadPreview = true;
+		    }
+		    	// Change the name of the button to 'Cancel Build'
+		  	document.getElementById("hiliteEdges").innerHTML = "Cancel Build";
+
+			// Flip the boolean
+			isBuildingRoad = true;
+	    }
+    });
+
+// Hilight the edges to show legal placement of a road
+function hiliteEdges() {
+     d3.select("#mySvg").append("g")
+         .attr("transform", "translate(" + margin.left + "," + margin.top + ")") //start of placement of edges
+         .attr("id", "linz");
+     var lineFunction = d3.svg.line()
+                 .x(function(d) {return d[0];})
+                 .y(function(d) {return d[1];})
+                 .interpolate("linear");
+
+     var Counter = 0;
+     //Loop over the linedata and draw each line
+     for (var i = 0; i < (lineData.length/2); i++) {
+     d3.select("#linz").append("path")
+          .attr("d", lineFunction([lineData[Counter],lineData[Counter+1]]))
+          .attr("stroke", "white")
+          .attr("stroke-width", 5)
+          .attr("fill", "none")
+		.on("mouseover", function(d) {
+              d3.select(this).style("filter", "url(#glow)").attr("stroke-width", 8);
+          })
+          .on("mouseout", function(d) {
+              d3.select(this).style("filter", "none").attr("stroke-width", 5);
+          })
+          .on("click", function(e){
+              alert('Place Road here?');
+          });
+
+          Counter = Counter + 2;
+     } //for i
+}//hiliteEdges()
+
 //Create lineData
 var lineData = [];
 
 //Add T1N1 and T1N2 as line coordinates
-lineData.push();
+lineData.push(cornerObj[0]);
+lineData.push(cornerObj[1]);
+console.log(lineData);
 
 //Draw line between two corner points
+//hiliteEdges();
