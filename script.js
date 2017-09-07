@@ -273,7 +273,6 @@ for (var row = 0; row < MapRows; row++) {
 ///////////////////////////////////////////////////////////////////////////
 ////////////////////// Draw hexagons and color them ///////////////////////
 ///////////////////////////////////////////////////////////////////////////
-var svg;
 drawBoard();
 
 // If the build settlement button is clicked update this value
@@ -349,6 +348,9 @@ d3.select("#hiliteCorners")
 		    // Change the name of the button back to 'Build Settlement'
 		    document.getElementById("hiliteCorners").innerHTML = "Build Settlement";
 
+		    //Change Action title
+		    document.getElementById("actionTitle").innerHTML = "";
+
 		    // The user is no longer trying to build a settlment
 	 	    isBuildingSettlement = false;
 	    }
@@ -361,6 +363,9 @@ d3.select("#hiliteCorners")
 		    }
 		    	// Change the name of the button to 'Cancel Build'
 		  	document.getElementById("hiliteCorners").innerHTML = "Cancel Build";
+
+			//Change Action title
+ 		    document.getElementById("actionTitle").innerHTML = "Place a Settlement";
 
 			// Flip the boolean
 			isBuildingSettlement = true;
@@ -431,6 +436,9 @@ d3.select("#hiliteEdges")
 		    // Change the name of the button back to 'Build Settlement'
 		    document.getElementById("hiliteEdges").innerHTML = "Build Road";
 
+		    //Change Action title
+		    document.getElementById("actionTitle").innerHTML = "";
+
 		    // The user is no longer trying to build a settlment
 	 	    isBuildingRoad = false;
 	    }
@@ -443,6 +451,9 @@ d3.select("#hiliteEdges")
 		    }
 		    	// Change the name of the button to 'Cancel Build'
 		  	document.getElementById("hiliteEdges").innerHTML = "Cancel Build";
+
+			//Change Action title
+ 		    document.getElementById("actionTitle").innerHTML = "Place a Road";
 
 			// Flip the boolean
 			isBuildingRoad = true;
@@ -484,9 +495,25 @@ function hiliteEdges() {
 //Create lineData
 var lineData = [];
 
-//Add T1N1 and T1N2 as line coordinates
+//Add some line coordinates as a test. valid places will be known with the board state
 lineData.push(cornerObj[0]);
 lineData.push(cornerObj[1]);
+lineData.push(cornerObj[1]);
+lineData.push(cornerObj[2]);
+lineData.push(cornerObj[2]);
+lineData.push(cornerObj[10]);
+lineData.push(cornerObj[10]);
+lineData.push(cornerObj[11]);
+lineData.push(cornerObj[11]);
+lineData.push(cornerObj[12]);
+lineData.push(cornerObj[47]);
+lineData.push(cornerObj[39]);
+lineData.push(cornerObj[39]);
+lineData.push(cornerObj[40]);
+lineData.push(cornerObj[40]);
+lineData.push(cornerObj[41]);
+lineData.push(cornerObj[41]);
+lineData.push(cornerObj[42]);
 console.log(lineData);
 
 //Draw line between two corner points

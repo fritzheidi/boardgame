@@ -228,9 +228,10 @@ function imageMapper (tileType) {
      return urlString;
 }//imageMapper()
 
+//This function will draw the hexagons of the main board
 function drawBoard(){
      //Create SVG element
-     svg = d3.select("#chart").append("svg")
+     var svg = d3.select("#chart").append("svg")
      .attr("id", "mySvg")
          .attr("width", width + margin.left + margin.right)
          .attr("height", height + margin.top + margin.bottom)

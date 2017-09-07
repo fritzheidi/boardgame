@@ -1,3 +1,7 @@
+<!-- Lobby Page
+1. Players in lobby
+2. Chat area
+3. If Host then display game settings -->
 <!DOCTYPE html>
 <html>
   <head>
@@ -42,10 +46,9 @@
                 #turnActions {
                    width: 18%;
                    height: 100%;
-                   right: 0;
+                   left: 50%;
                    top: 0;
                    margin-top: 150px;
-                   margin-right: 30px;
                    position: absolute;
                }
                button {
@@ -127,30 +130,11 @@
                     border-radius: 5px;
                }
 
-               #hiliteCorners:hover + .sidenav{
-                   left: -160px;
-               }
-
-               #hiliteSettlements:hover + .sidenav{
-                   left: -200px;
-               }
-
-               #hiliteEdges:hover + .sidenav{
-                   left: -80px;
-               }
-
-               #buildDev:hover + .sidenav{
-                   left: -120px;
-               }
-
-               .cost-image {
+               .avatar-image {
                     border-radius: 50%;
-                    width: 30px;
-                    height: 30px;
-                    margin-top:0px;
-                    position: relative;
-                    top:22%;
-                    margin-left: 5px;
+                    width: 70px;
+                    height: 70px;
+                    margin-right: 20px;
                }
 
 		</style>
@@ -174,75 +158,47 @@
             </nav>
      </header>
 	<body>
-          <!-- Action Title -->
-          <div class="row" style="padding-bottom: 20px">
-              <div class="col"></div>
-              <div class="col" style="text-align: center;">
-                  <h3 id="actionTitle" class="btn" style="color: #fff">  </h3>
-              </div>
-              <div class="col"></div>
-          </div>
-
-          <!-- Action buttons -->
-          <div id="turnActions">
-               <div style="padding-bottom: 20px;">
-                    <button onclick="" id="hiliteCorners" type="button" class="btn btn-primary btn-lg outline btn-block" style="position:relative; z-index: 2;">Build Settlement</button>
-                    <div id="mySidenav" class="sidenav">
-                         <img class="cost-image" src="file:///C:/Users/IBM_ADMIN/Documents/GitHub/boardgame/imgs/sheep_cost.png">
-                         <img class="cost-image" src="file:///C:/Users/IBM_ADMIN/Documents/GitHub/boardgame/imgs/wheat_cost.png">
-                         <img class="cost-image" src="file:///C:/Users/IBM_ADMIN/Documents/GitHub/boardgame/imgs/brick_cost.png">
-                         <img class="cost-image" src="file:///C:/Users/IBM_ADMIN/Documents/GitHub/boardgame/imgs/wood_cost.png">
-                    </div>
+          <div class="container">
+               <!-- Action Title -->
+               <div class="row" style="padding-bottom: 20px">
+                   <div class="col"></div>
+                   <div class="col" style="text-align: center;">
+                       <h3 class="btn" style="color: #fff">Game Lobby</h3>
+                   </div>
+                   <div class="col"></div>
                </div>
 
-               <div style="position: relative; right: 0; padding-bottom: 20px;">
-                    <button onclick="" id="hiliteSettlements" type="button" class="btn btn-primary btn-lg outline btn-block" style="position:relative; z-index: 2;">Build City</button>
-                    <div id="mySidenav" class="sidenav">
-                         <img class="cost-image" src="file:///C:/Users/IBM_ADMIN/Documents/GitHub/boardgame/imgs/rock_cost.png">
-                         <img class="cost-image" src="file:///C:/Users/IBM_ADMIN/Documents/GitHub/boardgame/imgs/rock_cost.png">
-                         <img class="cost-image" src="file:///C:/Users/IBM_ADMIN/Documents/GitHub/boardgame/imgs/wheat_cost.png">
-                         <img class="cost-image" src="file:///C:/Users/IBM_ADMIN/Documents/GitHub/boardgame/imgs/wheat_cost.png">
-                         <img class="cost-image" src="file:///C:/Users/IBM_ADMIN/Documents/GitHub/boardgame/imgs/wheat_cost.png">
-                    </div>
+               <!-- Players -->
+               <div class="row" style="padding-bottom: 20px">
+                   <div class="col" style="text-align: center;">
+                       <!-- Images of players go here -->
+
+                       <!-- Person who is host is the first image in the players area -->
+                       <img class="avatar-image" src="file:///C:/Users/IBM_ADMIN/Documents/GitHub/boardgame/imgs/sheep_cost.png">
+
+                       <!-- There are 4 empty circles that will be filled... maybe have them clickable to invite people to play -->
+                       <img class="avatar-image" src="file:///C:/Users/IBM_ADMIN/Documents/GitHub/boardgame/imgs/no_player.png">
+                       <img class="avatar-image" src="file:///C:/Users/IBM_ADMIN/Documents/GitHub/boardgame/imgs/no_player.png">
+                       <img class="avatar-image" src="file:///C:/Users/IBM_ADMIN/Documents/GitHub/boardgame/imgs/no_player.png">
+                       <!-- Everyone who joins once the lobby is esablished will be added to the players area -->
+
+                   </div>
                </div>
 
-               <div style="position: relative; right: 0; padding-bottom: 20px;">
-                    <button onclick="" id="hiliteEdges" type="button" class="btn btn-primary btn-lg outline btn-block" style="position:relative; z-index: 2;">Build Road</button>
-                    <div id="mySidenav" class="sidenav">
-                         <img class="cost-image" src="file:///C:/Users/IBM_ADMIN/Documents/GitHub/boardgame/imgs/wood_cost.png">
-                         <img class="cost-image" src="file:///C:/Users/IBM_ADMIN/Documents/GitHub/boardgame/imgs/brick_cost.png">
-                    </div>
-               </div>
+               <!-- Implement this stuff -->
+               <p style="color:white">max of 4 players images in a row</p>
+               <p style="color:white">start button in next row</p>
+               <p style="color:white">chat area below start and players</p>
+               <hr></hr>
+               <p style="color:white">finally if the player is the host then show the game settings</p>
 
-               <div style="position: relative; right: 0; padding-bottom: 20px;">
-                    <button onclick="" id="buildDev" type="button" class="btn btn-primary btn-lg outline btn-block" style="position:relative; z-index: 2;">Build Dev</button>
-                    <div id="mySidenav" class="sidenav">
-                         <img class="cost-image" src="file:///C:/Users/IBM_ADMIN/Documents/GitHub/boardgame/imgs/sheep_cost.png">
-                         <img class="cost-image" src="file:///C:/Users/IBM_ADMIN/Documents/GitHub/boardgame/imgs/wheat_cost.png">
-                         <img class="cost-image" src="file:///C:/Users/IBM_ADMIN/Documents/GitHub/boardgame/imgs/rock_cost.png">
-                    </div>
-               </div>
-
-               <div style="position: relative; right: 0; padding-bottom: 20px;">
-                    <button onclick="" id="hiliteEdges" type="button" class="btn btn-primary btn-lg outline btn-block">Play Dev</button>
-               </div>
-
-               <div style="position: relative; right: 0; padding-bottom: 20px;">
-                    <button onclick="" id="hiliteEdges" type="button" class="btn btn-primary btn-lg outline btn-block">Trade</button>
-               </div>
-
-               <div style="position: relative; right: 0; padding-bottom: 20px;">
-                    <button onclick="" id="hiliteEdges" type="button" class="btn btn-primary btn-lg outline btn-block">End Turn</button>
-               </div>
-          </div>
+          </div> <!-- Container -->
 
 
 
           </div>
           </div>
-		<div id="chart">
 
-          </div>
           <script type="text/javascript" src="constants.js"></script>
 		<script type="text/javascript" src="script.js"></script>
 
